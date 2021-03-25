@@ -71,31 +71,45 @@ Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
 Udp.endPacket();
 delay(1000);
  Serial.println("pre swing post circle");
- servomove();
+ servomoveright();
+ servomoveleft();
+ servomovecenter();
  delay(1000);
 Serial.println("bottom of swingy");
- moveSteps(true, 32 * 64, 3);
- delay(1000); 
  moveSteps(false, 32 * 64, 3);
- delay(1000);
+ delay(1000); 
+ //moveSteps(false, 32 * 64, 3);
+ //delay(1000);
 
 }
 
 
-void servomove(){
-   for (posVal = 0; posVal <= 180; posVal += 1) { // goes from 0 degrees to 180 degrees
+void servomoveright(){
+   for (posVal = 90; posVal <= 150; posVal += 1) { // goes from 0 degrees to 90 degrees
       // in steps of 1 degree
       Serial.println("here");
       myservo.write(posVal); // tell servo to go to position in variable 'pos'
       Serial.println("here2");
       delay(15); // waits 15ms for the servo to reach the position
     }
-  for (posVal = 180; posVal >= 0; posVal -= 1) { // goes from 180 degrees to 0 degrees
+}
+void servomoveleft(){   
+  for (posVal = 150; posVal >= 30; posVal -= 1) { // goes from 90 degrees to 0 degrees
       Serial.println("here1");
       myservo.write(posVal); // tell servo to go to position in variable 'pos'
       Serial.println("here12");
       delay(15); // waits 15ms for the servo to reach the position
   }
+}
+void servomovecenter(){
+  for (posVal = 30; posVal <= 90; posVal += 1) { // goes from 0 degrees to 90 degrees
+        // in steps of 1 degree
+        Serial.println("here");
+        myservo.write(posVal); // tell servo to go to position in variable 'pos'
+        Serial.println("here2");
+        delay(15); // waits 15ms for the servo to reach the position
+      }
+  
 }
 
 //Suggestion: the motor turns precisely when the ms range is between 3 and 20
@@ -108,6 +122,7 @@ void moveSteps(bool dir, int steps, byte ms) {
 void moveOneStep(bool dir) {
   // Define a variable, use four low bit to indicate the state of port
   static byte out = 0x01;
+  Serial.println("ksdjhs");
   // Decide the shift direction according to the rotation direction
   if (dir) { // ring shift left
     out != 0x08 ? out = out << 1 : out = 0x01;
