@@ -2,6 +2,8 @@
 #include <WebServer.h>
 #include <WiFi.h>
 #include <WiFiUdp.h>
+#include <HTTPClient.h> //new
+#define USE_SERIAL Serial //new
 
 int outPorts[] = {14, 27, 26, 25};
 Servo myservo; // create servo object to control a servo
@@ -14,6 +16,7 @@ int delayval = 100;
 //set up to connect to an existing network (e.g. mobile hotspot from laptop that will run the python code)
 const char* ssid = "APlaceToDequeue";
 const char* password = "elsebeer++";
+String address= "http://165.227.76.232:3000/am4958/running";
 WiFiUDP Udp;
 unsigned int localUdpPort = 4210;  //  port to listen on
 char incomingPacket[255];  // buffer for incoming packets
@@ -64,20 +67,44 @@ int status = WL_IDLE_STATUS;
 }
 
 void loop(){
+if((WiFi.status() == WL_CONNECTED)) {
+    HTTPClient http;
+    http.begin(address);
+ 
+    int httpCode = http.GET(); // start connection and send HTTP header
+    if (httpCode == HTTP_CODE_OK) { 
+        String response = http.getString();
+        if (response.equals("false")) {
+         delay(3000);
+            // Do not run sculpture, perhaps sleep for a couple seconds
+        }
+        else if(response.equals("true")) {
+          Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+          Udp.endPacket();
+          delay(1000);
+          Serial.println("pre swing post circle");
+          servomoveright();
+          servomoveleft();
+          servomovecenter();
+          delay(1000);
+          Serial.println("bottom of swingy");
+          moveSteps(false, 32 * 64, 5); //3 to 5
+          delay(1000); 
+            // Run sculpture
+        }
+        USE_SERIAL.println("Response was: " + response);
+    } else {
+        USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+    }
+    http.end();
+    delay(500); // sleep for half of a second
+  }
+
+//end max code
+  
 //wifi if this doesnt work probs check in on the delays
   // once we know where we got the inital packet from, send data back to that IP address and port
-Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
 
-Udp.endPacket();
-delay(1000);
- Serial.println("pre swing post circle");
- servomoveright();
- servomoveleft();
- servomovecenter();
- delay(1000);
-Serial.println("bottom of swingy");
- moveSteps(false, 32 * 64, 5); //3 to 5
- delay(1000); 
  //moveSteps(false, 32 * 64, 3);
  //delay(1000);
 
@@ -85,7 +112,7 @@ Serial.println("bottom of swingy");
 
 
 void servomoveright(){
-   for (posVal = 90; posVal <= 150; posVal += 1) { // goes from 0 degrees to 90 degrees
+   for (posVal = 90; posVal <= 150; posVal += 1) { // goes from 90 degrees to 150 degrees
       // in steps of 1 degree
       Serial.println("here");
       myservo.write(posVal); // tell servo to go to position in variable 'pos'
@@ -94,7 +121,7 @@ void servomoveright(){
     }
 }
 void servomoveleft(){   
-  for (posVal = 150; posVal >= 30; posVal -= 1) { // goes from 90 degrees to 0 degrees
+  for (posVal = 150; posVal >= 30; posVal -= 1) { // goes from 150 degrees to 30 degrees
       Serial.println("here1");
       myservo.write(posVal); // tell servo to go to position in variable 'pos'
       Serial.println("here12");
@@ -102,7 +129,7 @@ void servomoveleft(){
   }
 }
 void servomovecenter(){
-  for (posVal = 30; posVal <= 90; posVal += 1) { // goes from 0 degrees to 90 degrees
+  for (posVal = 30; posVal <= 90; posVal += 1) { // goes from 30 degrees to 90 degrees (recenter)
         // in steps of 1 degree
         Serial.println("here");
         myservo.write(posVal); // tell servo to go to position in variable 'pos'
