@@ -14,9 +14,9 @@ int delayval = 100;
 
 //wifi stuff
 //set up to connect to an existing network (e.g. mobile hotspot from laptop that will run the python code)
-const char* ssid = "APlaceToDequeue";
-const char* password = "elsebeer++";
-String address= "http://165.227.76.232:3000/am4958/running";
+const char* ssid = "WIFINAME";
+const char* password = "WIFIPASSWORD;
+String address= "http://165.227.76.232:3000/YOUR_UNI/running";
 WiFiUDP Udp;
 unsigned int localUdpPort = 4210;  //  port to listen on
 char incomingPacket[255];  // buffer for incoming packets
