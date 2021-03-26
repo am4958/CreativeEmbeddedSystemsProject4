@@ -76,7 +76,7 @@ delay(1000);
  servomovecenter();
  delay(1000);
 Serial.println("bottom of swingy");
- moveSteps(false, 32 * 64, 3);
+ moveSteps(false, 32 * 64, 5); //3 to 5
  delay(1000); 
  //moveSteps(false, 32 * 64, 3);
  //delay(1000);
