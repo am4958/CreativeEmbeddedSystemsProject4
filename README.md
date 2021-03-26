@@ -11,13 +11,13 @@ Materials:
 
 Hardware: 
   Servo- 
-    connect the servo motor to the driver with the blue wire in line with the first light of the driver
-    connnect the driver to the esp32 by connecting IN1 to GPIO 14 IN2 to GPIO 27 IN3 to GPIO 26 and IN4 to GPIO 25
-    Connect power to power and ground to ground
+    1. connect the servo motor to the driver with the blue wire in line with the first light of the driver
+    2. connnect the driver to the esp32 by connecting IN1 to GPIO 14 IN2 to GPIO 27 IN3 to GPIO 26 and IN4 to GPIO 25
+    3. Connect power to power and ground to ground
   Step-
-    Connect the yellow wire to GPIO 15
-    Connect the orage wire to 5v
-    Connect the brown wire to ground
+    1. Connect the yellow wire to GPIO 15
+    2. Connect the orage wire to 5v
+    3. Connect the brown wire to ground
     
 How To:
 
@@ -26,7 +26,7 @@ How To:
 4. Determine where you want to place your motors on the painting and cut out small holes for them.
 5. Attatch popsicle sticks using hot glue to the mototrs and attached the creatures you want to animate to the posicle sticks.
 6. Create a file and copy the python code
-7. Upload the .ino code to the esp32 (if using the api replace my uni with yours)
+7. Upload the .ino code to the esp32 (if using the api replace my uni with yours) Also input the proper wifi name/ password and use the serial monitor to determine the correct IP address
 8. Power on the esp 32 then run the python script.
 9. Open your personal page http://165.227.76.232:3000/YOUR_UNI/ and press run!
 
