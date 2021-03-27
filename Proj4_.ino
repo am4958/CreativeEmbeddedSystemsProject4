@@ -102,11 +102,6 @@ if((WiFi.status() == WL_CONNECTED)) {
 
 //end max code
   
-//wifi if this doesnt work probs check in on the delays
-  // once we know where we got the inital packet from, send data back to that IP address and port
-
- //moveSteps(false, 32 * 64, 3);
- //delay(1000);
 
 }
 
@@ -139,7 +134,7 @@ void servomovecenter(){
   
 }
 
-//Suggestion: the motor turns precisely when the ms range is between 3 and 20
+
 void moveSteps(bool dir, int steps, byte ms) {
   for (unsigned long i = 0; i < steps; i++) {
      moveOneStep(dir); // Rotate a step
