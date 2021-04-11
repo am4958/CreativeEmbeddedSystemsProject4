@@ -1,4 +1,4 @@
-# CreativeEmbeddedSystemsProject4
+# Animated Painting
 
 Video Link: https://www.youtube.com/watch?v=Ptx6u3kpRjo
 
